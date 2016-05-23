@@ -19,6 +19,8 @@
 #include <string.h> //memset
 #include <stdlib.h> //exit(0);
 #include <fcntl.h>          //for file operations
+#include <memory>
+
 
 void die(char *s)
 {
