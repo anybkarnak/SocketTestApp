@@ -1,0 +1,8 @@
+//
+// Created by akomandyr on 23.05.16.
+//
+
+#ifndef UDPRESEIVER_TCPLINUXSOCKET_H
+#define UDPRESEIVER_TCPLINUXSOCKET_H
+
+#endif //UDPRESEIVER_TCPLINUXSOCKET_H
