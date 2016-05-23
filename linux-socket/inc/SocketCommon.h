@@ -22,7 +22,7 @@
 #include <memory>
 
 
-void die(char *s)
+static void die(char *s)
 {
     perror(s);
     exit(1);
