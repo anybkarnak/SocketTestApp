@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.3)
+project(udp-sender)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
+
+set(${PROJECT_NAME}_INCLUDES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+set(${PROJECT_NAME}_HEADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(${PROJECT_NAME}_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+
+file(GLOB_RECURSE ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES_DIR}/*.h)
+file(GLOB_RECURSE ${PROJECT_NAME}_HEADERS ${${PROJECT_NAME}_HEADERS_DIR}/*.h)
+file(GLOB_RECURSE ${PROJECT_NAME}_C_SOURCES ${${PROJECT_NAME}_SOURCES_DIR}/*.c)
+file(GLOB_RECURSE ${PROJECT_NAME}_CXX_SOURCES ${${PROJECT_NAME}_SOURCES_DIR}/*.cpp)
+
+list(APPEND ${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_C_SOURCES}
+        ${${PROJECT_NAME}_CXX_SOURCES})
+
+list(APPEND ${PROJECT_NAME}_FILES ${${PROJECT_NAME}_INCLUDES}
+        ${${PROJECT_NAME}_HEADERS}
+        ${${PROJECT_NAME}_SOURCES})
+
+add_library(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_FILES})
+target_link_libraries(${PROJECT_NAME} message-container)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} win-socket)
+else()
+    target_link_libraries(${PROJECT_NAME} linux-socket)
+endif()
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_HEADERS_DIR})
