@@ -66,10 +66,11 @@ UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
 
 int UDPSocket::Recv(char* buffer, int bufferLen) {
 
-    std::lock_guard<std::mutex> lock(mutex);
+    //std::lock_guard<std::mutex> lock(mutex);
     int result;
     fd_set readset;
     struct timeval tv;
+    recv_len = 0;
 
     fflush(stdout);
     do
@@ -83,16 +84,16 @@ int UDPSocket::Recv(char* buffer, int bufferLen) {
 
     if (result == 1)
     {
-
         //try to receive some data, this is a blocking call
         if ((recv_len = recvfrom(m_socket, buffer, bufferLen, 0, (struct sockaddr *) &si_other, (socklen_t *) &slen)) ==
             -1)
         {
-            die("recvfrom()");
+           //continue die("recvfrom()");
         }
-
+        else
+        {
         std::cout<<buffer<<"  len = "<<recv_len<<std::endl;
-
+        }
     }
 
     return recv_len;
