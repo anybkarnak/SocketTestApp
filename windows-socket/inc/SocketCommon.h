@@ -1,0 +1,8 @@
+//
+// Created by karnak on 25.05.16.
+//
+
+#ifndef SOCKETTESTAPP_SOCKETCOMMON_H
+#define SOCKETTESTAPP_SOCKETCOMMON_H
+
+#endif //SOCKETTESTAPP_SOCKETCOMMON_H

@@ -92,9 +92,6 @@ int main(void)
                 sender1->StopSendData();
                 sender2->StopSendData();
 
-                //receiver1->PrintContainer();
-                //sendContainer->GetMap()
-                //sender1->PrintContainer();
                 for(volatile int i=0; i<10000000;i++)
                 {
                     pow(i,i);
@@ -108,10 +105,6 @@ int main(void)
                 }
                 else
                 {
-                    //receiver1->PrintContainer();
-
-                    //sender1->PrintContainer();
-
                     std::cout<<"\nnon equal"<<std::endl;
                 }
                 run = false;

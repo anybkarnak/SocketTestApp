@@ -1,0 +1,8 @@
+//
+// Created by karnak on 25.05.16.
+//
+
+#ifndef SOCKETTESTAPP_TCPSOCKET_H
+#define SOCKETTESTAPP_TCPSOCKET_H
+
+#endif //SOCKETTESTAPP_TCPSOCKET_H

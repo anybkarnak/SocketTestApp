@@ -1,0 +1,8 @@
+//
+// Created by karnak on 24.05.16.
+//
+
+#ifndef SOCKETTESTAPP_TCPRECEIVER_H
+#define SOCKETTESTAPP_TCPRECEIVER_H
+
+#endif //SOCKETTESTAPP_TCPRECEIVER_H
