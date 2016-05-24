@@ -13,7 +13,7 @@ class UDPReceiver
 {
 public:
 
-    UDPReceiver(MessageContainerPtr& container);
+    UDPReceiver(MessageContainerPtr& container, int localPort);
 
     void StartReceiveData();
     void StopReceiveData();

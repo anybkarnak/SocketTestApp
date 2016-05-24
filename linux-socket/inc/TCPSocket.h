@@ -7,6 +7,9 @@
 
 #include "SocketCommon.h"
 class TCPSocket
-{};
+{
+public:
+    TCPSocket(const std::string &localAddress, int localPort);
+};
 typedef std::shared_ptr<TCPSocket> TCPSocketPtr;
 #endif //UDPRESEIVER_TCPLINUXSOCKET_H

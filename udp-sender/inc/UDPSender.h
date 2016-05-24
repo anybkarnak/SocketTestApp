@@ -12,7 +12,18 @@
 class UDPSender
 {
 public:
-    UDPSender(const std::string &localAddress, int localPort);
+    UDPSender(const std::string& localAddress, int localPort);
+
+    void StartSendData();
+
+    void StopSendData();
+
+    void PrintContainer();
+
+    uint8_t* ComposeMessage(uint16_t MessageSize,
+                        uint8_t MessageType,
+                        uint64_t MessageId,
+                        uint64_t MessageData);
 
     ~UDPSender();
 
@@ -41,6 +52,8 @@ private:
      *  container of messages for TCP socket(for checking)
      */
     MessageContainerPtr m_TCPSocketContainer;
+
+    int m_bufferLenght;
 };
 
 typedef std::shared_ptr<UDPSender> UDPSenderPtr;

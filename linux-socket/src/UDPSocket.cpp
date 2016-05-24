@@ -30,6 +30,39 @@ UDPSocket::UDPSocket(const int localPort)
     }
 }
 
+UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
+{
+    slen = sizeof(si_other);
+    //create a UDP socket
+    if ((m_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
+    {
+        die("socket");
+    }
+
+    fcntl(m_socket, F_SETFL, O_NONBLOCK);
+
+    // zero out the structure
+    memset((char *) &si_me, 0, sizeof(si_me));
+
+    si_me.sin_family = AF_INET;
+    si_me.sin_port = htons(localPort);
+
+    if (inet_aton(localAddress.c_str() , &si_me.sin_addr) == 0)
+    {
+        fprintf(stderr, "inet_aton() failed\n");
+        //exit(1);
+    }
+   // si_me.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    //bind socket to port
+    if (bind(m_socket, (struct sockaddr *) &si_me, sizeof(si_me)) == -1)
+    {
+        die("bind");
+    }
+}
+
+
+
 int UDPSocket::Recv(void* buffer, int bufferLen) {
 
     int result;
@@ -57,6 +90,13 @@ int UDPSocket::Recv(void* buffer, int bufferLen) {
 
     }
 }
+
+
+void UDPSocket::Send(const void *buffer, int bufferLen)
+{
+
+}
+
 
 UDPSocket::~UDPSocket()
 {

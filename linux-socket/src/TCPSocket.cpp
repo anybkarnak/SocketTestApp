@@ -3,3 +3,7 @@
 //
 
 #include "TCPSocket.h"
+TCPSocket::TCPSocket(const std::string &localAddress, int localPort)
+{
+
+}

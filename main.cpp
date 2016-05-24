@@ -11,6 +11,7 @@
 
 using namespace std;
 
+static const int PORT = 8888;   //The port on which to listen for incoming data
 
 int main(void)
 {
@@ -20,7 +21,7 @@ int main(void)
   //  std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " << a.MessageData;
 
     MessageContainerPtr container = std::make_shared<MessageContainer>();
-    UDPReceiver *receiver1 = new UDPReceiver(container);
+    UDPReceiver *receiver1 = new UDPReceiver(container, 8888);
     //UDPReceiver *receiver2 = new UDPReceiver(container);
 
     bool run = true;

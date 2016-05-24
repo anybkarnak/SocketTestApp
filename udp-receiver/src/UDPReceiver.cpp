@@ -6,12 +6,12 @@
 #include "UDPReceiver.h"
 
 static const int BUFLEN = 32;  //Max length of buffer
-static const int PORT = 8888;   //The port on which to listen for incoming data
 
-UDPReceiver::UDPReceiver(MessageContainerPtr &container):
+
+UDPReceiver::UDPReceiver(MessageContainerPtr &container,int localPort):
         m_container(container),
         m_running(true),
-        m_socketPtr(std::make_shared<UDPSocket>(PORT))
+        m_socketPtr(std::make_shared<UDPSocket>(localPort))
 {
 }
 
@@ -22,8 +22,8 @@ void UDPReceiver::StartReceiveData()
     int recv_len;
     while (m_running)
     {
-        recv_len=m_socketPtr->Recv(buf, BUFLEN);
-
+        recv_len = m_socketPtr->Recv(buf, BUFLEN);
+        //19 digits and '\0'
         if (recv_len == 20)
         {
             Message a(buf);

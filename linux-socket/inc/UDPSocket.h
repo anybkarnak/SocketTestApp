@@ -58,7 +58,8 @@ public:
     ~UDPSocket();
 
 
-    private:
+private:
+
     /**
      *   Internal Socket descriptor
      **/
