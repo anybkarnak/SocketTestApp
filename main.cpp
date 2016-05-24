@@ -22,19 +22,38 @@ int main(void)
    // Message a(arr);
   //  std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " << a.MessageData;
 
-    MessageContainerPtr container = std::make_shared<MessageContainer>();
-    UDPSocketPtr socket = std::make_shared<UDPSocket>("127.0.0.1", PORT);
-    UDPReceiver *receiver1 = new UDPReceiver(socket);
-    //UDPReceiver *receiver2 = new UDPReceiver(container);
-    UDPSender *sender1 = new UDPSender(socket);
+    MessageContainerPtr receiveContainer = std::make_shared<MessageContainer>();
+    UDPSocketPtr socket1 = std::make_shared<UDPSocket>("127.0.0.1", PORT);
+    UDPSocketPtr socket2 = std::make_shared<UDPSocket>("127.0.0.1", PORT+1);
+
+    UDPReceiverPtr receiver1 = std::make_shared<UDPReceiver>(socket1, receiveContainer);
+    UDPReceiverPtr receiver2 = std::make_shared<UDPReceiver>(socket2, receiveContainer);
+
+    MessageContainerPtr sendContainer = std::make_shared<MessageContainer>();
+    UDPSenderPtr sender1 = std::make_shared<UDPSender>(socket1, sendContainer);
+    UDPSenderPtr sender2 = std::make_shared<UDPSender>(socket2, sendContainer);
     bool run = true;
+
+
+    Message a(10, 20, 30, 40);
+    Message b((sender1->ComposeMessage(10,20,30,40)));
+
+    if(a==b)
+    {
+        std::cout<<"compare true";
+    }
+    else
+    {
+        std::cout << b.MessageSize << " " << (int) b.MessageType << " " << b.MessageId << " " <<b.MessageData<<std::endl;
+        std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " <<a.MessageData<<std::endl;
+    }
 
     while (run)
     {
         std::cout << " enter choise" << std::endl;
-        std::cout << "1 - run" << std::endl;
+        std::cout << "1 - run demo" << std::endl;
         std::cout << "2 - print" << std::endl;
-        std::cout << "3 - stop" << std::endl;
+        std::cout << "3 - stop demo, get results" << std::endl;
 
         int choise;
         cin >> choise;
@@ -45,24 +64,40 @@ int main(void)
             {
                 std::thread t(&UDPReceiver::StartReceiveData, receiver1);
                 t.detach();
-                std::thread t2(&UDPReceiver::StartReceiveData, receiver1);
-                t2.detach();
+                //std::thread t2(&UDPReceiver::StartReceiveData, receiver2);
+               // t2.detach();
 
                 std::thread t3(&UDPSender::StartSendData, sender1);
                 t3.detach();
+
+                //std::thread t4(&UDPSender::StartSendData, sender2);
+               // t4.detach();
 
                 break;
             }
             case 2:
             {
-                receiver1->PrintContainer();
+                //receiver1->PrintContainer();
                 break;
             }
             case 3:
             {
                 receiver1->PrintContainer();
+                //sendContainer->GetMap()
+                //sender1->PrintContainer();
+                bool equal = receiveContainer->Compare(sendContainer);
+                if(equal)
+                {
+                    std::cout<<"\nequal"<<std::endl;
+                }
+                else
+                {
+                    //receiver1->PrintContainer();
 
-                sender1->PrintContainer();
+                    //sender1->PrintContainer();
+
+                    std::cout<<"\nnon equal"<<std::endl;
+                }
                 run = false;
                 break;
             }

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "MessageContainer.h"
+#include <algorithm>
 
 void MessageContainer::Add(Message& msg)
 {
@@ -25,4 +26,27 @@ void MessageContainer::Print()
     {
         std::cout<<msg.first<<" "<<msg.second.MessageData<<std::endl;
     }
+}
+
+bool MessageContainer::Compare(const MessageContainerPtr& container)
+{
+
+    std::cout<<std::endl<<container->GetMap().size()<<" "<<this->m_container.size()<<std::endl;
+
+    auto contbeg_ = container->GetMap().begin();
+    auto contend_ =container->GetMap().end();
+
+    for(auto& i : this->m_container)
+    {
+        auto j = std::find_if(contbeg_, contend_,
+        [&i] (const std::pair<uint64_t, Message>& pair) { return i.second==pair.second; }
+        );
+
+        if(j==container->GetMap().end())
+        {
+            return false;
+        }
+    }
+
+    return true;
 }

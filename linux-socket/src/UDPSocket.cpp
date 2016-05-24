@@ -50,7 +50,7 @@ UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
 
     if (inet_aton(localAddress.c_str() , &si_me.sin_addr) == 0)
     {
-        fprintf(stderr, "inet_aton() failed\n");
+        //fprintf(stderr, "inet_aton() failed\n");
         //exit(1);
     }
    // si_me.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -71,6 +71,7 @@ int UDPSocket::Recv(char* buffer, int bufferLen) {
     fd_set readset;
     struct timeval tv;
     recv_len = 0;
+    std::memset(buffer,'\0', sizeof(buffer));
 
     fflush(stdout);
     do
@@ -92,7 +93,7 @@ int UDPSocket::Recv(char* buffer, int bufferLen) {
         }
         else
         {
-        std::cout<<buffer<<"  len = "<<recv_len<<std::endl;
+        //std::cout<<buffer<<"  len = "<<recv_len<<std::endl;
         }
     }
 

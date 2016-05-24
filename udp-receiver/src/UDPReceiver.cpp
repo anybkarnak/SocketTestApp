@@ -8,17 +8,19 @@
 static const int BUFLEN = 32;  //Max length of buffer
 
 
-UDPReceiver::UDPReceiver(MessageContainerPtr& container,int localPort):
+UDPReceiver::UDPReceiver(const MessageContainerPtr& container, int localPort):
         m_container(container),
         m_running(true),
         m_socketPtr(std::make_shared<UDPSocket>(localPort))
 {
 }
 
-UDPReceiver::UDPReceiver(UDPSocketPtr& socket):m_socketPtr(socket),
-m_container(std::make_shared<MessageContainer>()),
-                                               m_running(true)
-{}
+UDPReceiver::UDPReceiver(UDPSocketPtr& socket, const MessageContainerPtr& container):
+        m_socketPtr(socket),
+        m_container(container),
+        m_running(true)
+{
+}
 
 void UDPReceiver::StartReceiveData()
 {
@@ -31,11 +33,17 @@ void UDPReceiver::StartReceiveData()
         if (recv_len == 20)
         {
             Message a(buf);
-            std::cout<<"\nadd message"<<std::endl;
+            //std::cout << std::endl << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " <<a.MessageData<<std::endl;
+            if (a.MessageId % 100 == 0)
+            {
+                std::cout <<"receiver "<< std::endl << buf << std::endl;
+            }
+            //std::cout << "\nadd message" << std::endl;
             if (m_container != nullptr)
             {
                 m_container->Add(a);
             }
+
         }
 
     }

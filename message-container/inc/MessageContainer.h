@@ -16,14 +16,12 @@
 
 struct Message
 {
-    Message(char *buf) :
-            MessageSize(*(reinterpret_cast<uint16_t *>(buf))),
-            MessageType(static_cast<uint8_t>(buf[2])),
-            MessageId(*(reinterpret_cast<uint64_t *>(buf + 3))),
-            MessageData(*(reinterpret_cast<uint64_t *>(buf + 11)))
+    Message(char* buf)
     {
-        //std::cout<<"message container, buf = "<<buf<<std::endl;
-        //std::cout << MessageSize << " " << (int) MessageType << " " << MessageId << " " << MessageData;
+            MessageSize =((buf[1]<<8)|buf[0]);
+            MessageType = buf[2];
+            MessageId = ((buf[10] << 56)|(buf[9] << 48) | (buf[8] << 40) | (buf[7] << 32) | (buf[6] << 24) | (buf[5] << 16) | (buf[4] << 8) | (buf[3]));
+            MessageData = ((buf[18] << 56)|(buf[17] << 48) | (buf[16] << 40) | (buf[15] << 32) | (buf[14] << 24) | (buf[13] << 16) | (buf[12] << 8) | (buf[11]));
     }
 
     Message():
@@ -44,6 +42,10 @@ struct Message
             MessageData(messageData)
     {
     }
+    bool operator==(const Message msg) const
+    {
+        return (MessageSize==msg.MessageSize&&MessageType==msg.MessageType&&MessageId==msg.MessageId&&MessageData==msg.MessageData);
+    }
 
     uint16_t MessageSize;
     uint8_t MessageType;
@@ -51,6 +53,8 @@ struct Message
     uint64_t MessageData;
 };
 
+class MessageContainer;
+typedef std::shared_ptr<MessageContainer> MessageContainerPtr;
 
 class MessageContainer
 {
@@ -59,6 +63,10 @@ public:
     void Add(Message& msg);
 
     Message Find(uint64_t msg_ID);
+
+    bool Compare(const MessageContainerPtr& container);
+
+    std::map<uint64_t, Message> GetMap(){return m_container;};
 
     void Print();
 private:

@@ -13,8 +13,9 @@ class UDPReceiver
 {
 public:
 
-    UDPReceiver(MessageContainerPtr& container, int localPort);
-    UDPReceiver(UDPSocketPtr& socket);
+    UDPReceiver(const MessageContainerPtr& container, int localPort);
+
+    UDPReceiver(UDPSocketPtr& socket, const MessageContainerPtr& container);
 
     void StartReceiveData();
     void StopReceiveData();
@@ -39,4 +40,5 @@ private:
 
 };
 
+typedef std::shared_ptr<UDPReceiver> UDPReceiverPtr;
 #endif //UDPRECEIVER_H
