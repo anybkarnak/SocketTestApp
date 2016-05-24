@@ -6,6 +6,7 @@
 #define UDPLINUXSOCKET_H
 
 
+#include <mutex>
 #include "SocketCommon.h"
 
 
@@ -32,7 +33,7 @@ public:
      *   @param bufferLen maximum number of bytes to read into buffer
      *   @return number of bytes read, 0 for EOF, and -1 for error
      */
-     int Recv(void *buffer, int bufferLen);
+     int Recv(char *buffer, int bufferLen);
 
     /**
      *   Sets the socket to Non blocking state.
@@ -72,7 +73,7 @@ private:
 
     int recv_len;
     int slen;
-
+    std::mutex mutex;
 };
 
 typedef std::shared_ptr<UDPSocket> UDPSocketPtr;

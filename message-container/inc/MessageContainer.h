@@ -22,8 +22,8 @@ struct Message
             MessageId(*(reinterpret_cast<uint64_t *>(buf + 3))),
             MessageData(*(reinterpret_cast<uint64_t *>(buf + 11)))
     {
-        std::cout<<"message container, buf = "<<buf<<std::endl;
-        std::cout << MessageSize << " " << (int) MessageType << " " << MessageId << " " << MessageData;
+        //std::cout<<"message container, buf = "<<buf<<std::endl;
+        //std::cout << MessageSize << " " << (int) MessageType << " " << MessageId << " " << MessageData;
     }
 
     Message():

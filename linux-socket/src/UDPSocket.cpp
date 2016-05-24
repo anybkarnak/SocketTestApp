@@ -2,6 +2,7 @@
 // Created by akomandyr on 23.05.16.
 //
 
+#include <iostream>
 #include "UDPSocket.h"
 
 UDPSocket::UDPSocket(const int localPort)
@@ -63,8 +64,9 @@ UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
 
 
 
-int UDPSocket::Recv(void* buffer, int bufferLen) {
+int UDPSocket::Recv(char* buffer, int bufferLen) {
 
+    std::lock_guard<std::mutex> lock(mutex);
     int result;
     fd_set readset;
     struct timeval tv;
@@ -81,6 +83,7 @@ int UDPSocket::Recv(void* buffer, int bufferLen) {
 
     if (result == 1)
     {
+
         //try to receive some data, this is a blocking call
         if ((recv_len = recvfrom(m_socket, buffer, bufferLen, 0, (struct sockaddr *) &si_other, (socklen_t *) &slen)) ==
             -1)
@@ -88,7 +91,11 @@ int UDPSocket::Recv(void* buffer, int bufferLen) {
             die("recvfrom()");
         }
 
+        std::cout<<buffer<<"  len = "<<recv_len<<std::endl;
+
     }
+
+    return recv_len;
 }
 
 

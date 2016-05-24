@@ -21,7 +21,7 @@ int main(void)
   //  std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " << a.MessageData;
 
     MessageContainerPtr container = std::make_shared<MessageContainer>();
-    UDPReceiver *receiver1 = new UDPReceiver(container, 8888);
+    UDPReceiver *receiver1 = new UDPReceiver(container, PORT);
     //UDPReceiver *receiver2 = new UDPReceiver(container);
 
     bool run = true;

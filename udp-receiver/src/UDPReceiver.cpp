@@ -24,10 +24,10 @@ void UDPReceiver::StartReceiveData()
     {
         recv_len = m_socketPtr->Recv(buf, BUFLEN);
         //19 digits and '\0'
-        if (recv_len == 20)
+        if (recv_len == 19)
         {
             Message a(buf);
-
+            std::cout<<"\nadd message"<<std::endl;
             if (m_container != nullptr)
             {
                 m_container->Add(a);
