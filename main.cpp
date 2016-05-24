@@ -10,6 +10,7 @@
 #include <thread>
 #include <UDPSender.h>
 #include <UDPSocket.h>
+#include <cmath>
 
 using namespace std;
 
@@ -35,18 +36,24 @@ int main(void)
     bool run = true;
 
 
-    Message a(10, 20, 30, 40);
-    Message b((sender1->ComposeMessage(10,20,30,40)));
-
-    if(a==b)
-    {
-        std::cout<<"compare true";
-    }
-    else
-    {
-        std::cout << b.MessageSize << " " << (int) b.MessageType << " " << b.MessageId << " " <<b.MessageData<<std::endl;
-        std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " <<a.MessageData<<std::endl;
-    }
+//    Message a(1028, 241, 30, 40);
+//    uint8_t* arr = (sender1->ComposeMessage(1028, 241, 30, 40));
+//    std::cout<<"main";
+//    for(int i = 0;i<20;i++)
+//    {
+//        std::cout<<(int)*(arr+i)<<std::endl;
+//    }
+//    Message b(arr);
+//    if(a==b)
+//    {
+//        std::cout<<"compare true";
+//    }
+//    else
+//    {
+//        //std::cout<<"long size"<<sizeof(uint64_t);
+//        std::cout << b.MessageSize << " " << (int) b.MessageType << " " << b.MessageId << " " <<b.MessageData<<std::endl;
+//        std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " <<a.MessageData<<std::endl;
+//    }
 
     while (run)
     {
@@ -64,14 +71,14 @@ int main(void)
             {
                 std::thread t(&UDPReceiver::StartReceiveData, receiver1);
                 t.detach();
-                //std::thread t2(&UDPReceiver::StartReceiveData, receiver2);
-               // t2.detach();
+                std::thread t2(&UDPReceiver::StartReceiveData, receiver2);
+                t2.detach();
 
                 std::thread t3(&UDPSender::StartSendData, sender1);
                 t3.detach();
 
-                //std::thread t4(&UDPSender::StartSendData, sender2);
-               // t4.detach();
+                std::thread t4(&UDPSender::StartSendData, sender2);
+                t4.detach();
 
                 break;
             }
@@ -82,9 +89,18 @@ int main(void)
             }
             case 3:
             {
-                receiver1->PrintContainer();
+                sender1->StopSendData();
+                sender2->StopSendData();
+
+                //receiver1->PrintContainer();
                 //sendContainer->GetMap()
                 //sender1->PrintContainer();
+                for(volatile int i=0; i<10000000;i++)
+                {
+                    pow(i,i);
+                }
+                receiver1->StopReceiveData();
+                receiver2->StopReceiveData();
                 bool equal = receiveContainer->Compare(sendContainer);
                 if(equal)
                 {

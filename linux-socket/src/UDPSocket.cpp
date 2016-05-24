@@ -40,6 +40,7 @@ UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
         die("socket");
     }
 
+    //set socket non-blocking mode
     fcntl(m_socket, F_SETFL, O_NONBLOCK);
 
     // zero out the structure
@@ -50,10 +51,8 @@ UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
 
     if (inet_aton(localAddress.c_str() , &si_me.sin_addr) == 0)
     {
-        //fprintf(stderr, "inet_aton() failed\n");
-        //exit(1);
+
     }
-   // si_me.sin_addr.s_addr = htonl(INADDR_ANY);
 
     //bind socket to port
     if (bind(m_socket, (struct sockaddr *) &si_me, sizeof(si_me)) == -1)
@@ -66,13 +65,13 @@ UDPSocket::UDPSocket(const std::string &localAddress, int localPort)
 
 int UDPSocket::Recv(char* buffer, int bufferLen) {
 
-    //std::lock_guard<std::mutex> lock(mutex);
     int result;
     fd_set readset;
     struct timeval tv;
     recv_len = 0;
     std::memset(buffer,'\0', sizeof(buffer));
 
+    //check socket
     fflush(stdout);
     do
     {
@@ -93,7 +92,7 @@ int UDPSocket::Recv(char* buffer, int bufferLen) {
         }
         else
         {
-        //std::cout<<buffer<<"  len = "<<recv_len<<std::endl;
+
         }
     }
 

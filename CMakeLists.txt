@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.3)
 project(SocketTestApp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if(WIN32)
     add_subdirectory(win-socket)
 else()
     add_subdirectory(linux-socket)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 endif()
 
 add_subdirectory(udp-receiver)

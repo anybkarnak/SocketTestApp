@@ -34,19 +34,22 @@ bool MessageContainer::Compare(const MessageContainerPtr& container)
     std::cout<<std::endl<<container->GetMap().size()<<" "<<this->m_container.size()<<std::endl;
 
     auto contbeg_ = container->GetMap().begin();
-    auto contend_ =container->GetMap().end();
+    auto contend_ = container->GetMap().end();
+
+    uint64_t matches=0;
 
     for(auto& i : this->m_container)
     {
         auto j = std::find_if(contbeg_, contend_,
-        [&i] (const std::pair<uint64_t, Message>& pair) { return i.second==pair.second; }
+        [&i] (const std::pair<uint64_t, Message>& pair) { return pair.first==i.first&&i.second==pair.second; }
         );
 
         if(j==container->GetMap().end())
         {
             return false;
+            matches++;
         }
     }
-
+    std::cout<<std::endl<<matches<<" matches, percentage = "<<matches/this->m_container.size()<<std::endl;
     return true;
 }

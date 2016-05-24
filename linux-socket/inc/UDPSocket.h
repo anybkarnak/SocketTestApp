@@ -17,14 +17,7 @@ public:
     UDPSocket(const std::string &localAddress, int localPort);
     //for receiving socket
     UDPSocket(const int localPort);
-    /**
-        *   Set the local port to the specified port and the local address
-        *   will be selected.
-        *   @param localAddress local address
-        *   @param localPort local port
-        */
 
-     void BindLocalAddressAndPort(const std::string &localAddress, unsigned short localPort);
 
     /**
      *   Read into the given buffer up to bufferLen bytes data from this
@@ -36,21 +29,7 @@ public:
      int Recv(char *buffer, int bufferLen);
 
     /**
-     *   Sets the socket to Non blocking state.
-     */
-     int SetNonBlock();
-
-    /**
-     *   Establish a socket connection for TCP SOCKET with the given foreign
-     *   address and port
-     *   @param foreignAddress foreign address (IP address or name)
-     *   @param foreignPort foreign port
-     */
-    void ConnectToHost(const std::string &foreignAddress, unsigned short foreignPort);
-
-    /**
-     *   Write the given buffer to this socket.  Call connect() before
-     *   calling send()
+     *   Write the given buffer to this socket.
      *   @param buffer buffer to be written
      *   @param bufferLen number of bytes from buffer to be written
      */

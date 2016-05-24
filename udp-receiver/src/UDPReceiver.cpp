@@ -26,29 +26,21 @@ void UDPReceiver::StartReceiveData()
 {
     char buf[BUFLEN];
     int recv_len;
+
     while (m_running)
     {
         recv_len = m_socketPtr->Recv(buf, BUFLEN);
         //19 digits and '\0'
         if (recv_len == 20)
         {
-            Message a(buf);
-            //std::cout << std::endl << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " <<a.MessageData<<std::endl;
-            if (a.MessageId % 100 == 0)
-            {
-                std::cout <<"receiver "<< std::endl << buf << std::endl;
-            }
-            //std::cout << "\nadd message" << std::endl;
+            Message a((uint8_t*)buf);
+
             if (m_container != nullptr)
             {
                 m_container->Add(a);
             }
-
         }
-
     }
-
-    //m_container->Print();
 
 }
 
