@@ -34,6 +34,17 @@ struct Message
             {
 
             }
+    Message(uint16_t messageSize,
+    uint8_t messageType,
+    uint64_t messageId,
+    uint64_t messageData):
+            MessageSize(messageSize),
+            MessageType(messageType),
+            MessageId(messageId),
+            MessageData(messageData)
+    {
+    }
+
     uint16_t MessageSize;
     uint8_t MessageType;
     uint64_t MessageId;

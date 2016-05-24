@@ -14,6 +14,8 @@ class UDPSender
 public:
     UDPSender(const std::string& localAddress, int localPort);
 
+    UDPSender(const UDPSocketPtr& m_UDPSocket);
+
     void StartSendData();
 
     void StopSendData();

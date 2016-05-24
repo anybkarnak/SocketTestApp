@@ -100,9 +100,13 @@ int UDPSocket::Recv(char* buffer, int bufferLen) {
 }
 
 
-void UDPSocket::Send(const void *buffer, int bufferLen)
+void UDPSocket::Send(const uint8_t *buffer, int bufferLen)
 {
-
+//send the message
+    if (sendto(m_socket, buffer, bufferLen , 0 , (struct sockaddr *) &si_me, slen)==-1)
+    {
+        die("sendto()");
+    }
 }
 
 

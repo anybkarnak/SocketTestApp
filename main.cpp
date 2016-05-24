@@ -8,6 +8,8 @@
 #include <iostream>
 #include <atomic>
 #include <thread>
+#include <UDPSender.h>
+#include <UDPSocket.h>
 
 using namespace std;
 
@@ -21,9 +23,10 @@ int main(void)
   //  std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " << a.MessageData;
 
     MessageContainerPtr container = std::make_shared<MessageContainer>();
-    UDPReceiver *receiver1 = new UDPReceiver(container, PORT);
+    UDPSocketPtr socket = std::make_shared<UDPSocket>("127.0.0.1", PORT);
+    UDPReceiver *receiver1 = new UDPReceiver(socket);
     //UDPReceiver *receiver2 = new UDPReceiver(container);
-
+    UDPSender *sender1 = new UDPSender(socket);
     bool run = true;
 
     while (run)
@@ -44,6 +47,10 @@ int main(void)
                 t.detach();
                 std::thread t2(&UDPReceiver::StartReceiveData, receiver1);
                 t2.detach();
+
+                std::thread t3(&UDPSender::StartSendData, sender1);
+                t3.detach();
+
                 break;
             }
             case 2:
@@ -53,6 +60,9 @@ int main(void)
             }
             case 3:
             {
+                receiver1->PrintContainer();
+
+                sender1->PrintContainer();
                 run = false;
                 break;
             }

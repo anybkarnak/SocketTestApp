@@ -8,13 +8,17 @@
 static const int BUFLEN = 32;  //Max length of buffer
 
 
-UDPReceiver::UDPReceiver(MessageContainerPtr &container,int localPort):
+UDPReceiver::UDPReceiver(MessageContainerPtr& container,int localPort):
         m_container(container),
         m_running(true),
         m_socketPtr(std::make_shared<UDPSocket>(localPort))
 {
 }
 
+UDPReceiver::UDPReceiver(UDPSocketPtr& socket):m_socketPtr(socket),
+m_container(std::make_shared<MessageContainer>()),
+                                               m_running(true)
+{}
 
 void UDPReceiver::StartReceiveData()
 {

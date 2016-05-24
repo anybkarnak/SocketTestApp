@@ -14,6 +14,7 @@ class UDPReceiver
 public:
 
     UDPReceiver(MessageContainerPtr& container, int localPort);
+    UDPReceiver(UDPSocketPtr& socket);
 
     void StartReceiveData();
     void StopReceiveData();
@@ -34,7 +35,7 @@ private:
     /*
      *  container of messages
      */
-    MessageContainerPtr& m_container;
+    MessageContainerPtr m_container;
 
 };
 

@@ -17,7 +17,13 @@ UDPSender::UDPSender(const std::string& localAddress, int localPort):
         m_bufferLenght(BUFFLEN)
 {
 }
-
+UDPSender::UDPSender(const UDPSocketPtr& m_UDPSocket):
+        m_UDPSocketContainer(std::make_shared<MessageContainer>()),
+        m_TCPSocketContainer(std::make_shared<MessageContainer>()),
+        m_running(true),
+        m_UDPSocket(m_UDPSocket),
+        m_TCPSocket(nullptr),
+        m_bufferLenght(BUFFLEN){ }
 
 uint8_t* UDPSender::ComposeMessage(uint16_t MessageSize,
                                    uint8_t MessageType,
@@ -45,7 +51,7 @@ uint8_t* UDPSender::ComposeMessage(uint16_t MessageSize,
     byteArray[17] = (int) ((MessageData >> 16) & 0xFF);
     byteArray[18] = (int) ((MessageData >> 8) & 0XFF);
     byteArray[19] = (int) ((MessageData & 0XFF));
-
+    byteArray[20] = '\0';
 
     return byteArray;
 }
@@ -69,6 +75,8 @@ void UDPSender::StartSendData()
         {
             std::cout << std::endl << buffer << std::endl;
         }
+        Message a(MessageSize, MessageType, MessageId, MessageData);
+        m_UDPSocketContainer->Add(a);
 
         m_UDPSocket->Send(buffer, m_bufferLenght);
     }
@@ -77,4 +85,9 @@ void UDPSender::StartSendData()
 void UDPSender::StopSendData()
 {
     m_running = false;
+}
+
+void UDPSender::PrintContainer()
+{
+    m_UDPSocketContainer->Print();
 }

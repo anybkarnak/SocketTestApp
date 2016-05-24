@@ -54,7 +54,7 @@ public:
      *   @param buffer buffer to be written
      *   @param bufferLen number of bytes from buffer to be written
      */
-     void Send(const void *buffer, int bufferLen);
+     void Send(const uint8_t* buffer, int bufferLen);
 
     ~UDPSocket();
 
