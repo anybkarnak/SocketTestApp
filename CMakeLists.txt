@@ -4,7 +4,7 @@ project(SocketTestApp)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if(WIN32)
-    add_subdirectory(win-socket)
+    add_subdirectory(windows-socket)
 else()
     add_subdirectory(linux-socket)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")

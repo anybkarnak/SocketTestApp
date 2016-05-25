@@ -18,7 +18,7 @@
 #include <climits>
 #include <string.h> //memset
 #include <stdlib.h> //exit(0);
-#include <fcntl.h>          //for file operations
+#include <fcntl.h>          //for file operations(set socket non-blocking)
 #include <memory>
 
 

@@ -26,9 +26,29 @@ public:
      *   @param bufferLen number of bytes from buffer to be written
      */
     void Send(const uint8_t* buffer, int bufferLen);
+
 private:
+    /*
+     * Socket descriptor
+     */
     int m_socket;
 
+    /*
+     * client socket descriptor
+     */
+    int m_client;
+
+    /*
+     * my address information
+     */
+    struct 	sockaddr_in 	m_addr;
+
+    /*
+     *  connector's address information
+     */
+    struct 	sockaddr_in 	their_addr;
+
+    int sin_size;
 
 };
 typedef std::shared_ptr<TCPSocket> TCPSocketPtr;
