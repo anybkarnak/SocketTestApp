@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
-project(udp-receiver)
+project(windows-socket)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(${PROJECT_NAME}_INCLUDES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 set(${PROJECT_NAME}_HEADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -19,13 +21,5 @@ list(APPEND ${PROJECT_NAME}_FILES ${${PROJECT_NAME}_INCLUDES}
         ${${PROJECT_NAME}_SOURCES})
 
 add_library(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_FILES})
-target_link_libraries(${PROJECT_NAME} message-container)
-
-if(WIN32)
-    target_link_libraries(${PROJECT_NAME} windows-socket)
-else()
-    target_link_libraries(${PROJECT_NAME} linux-socket)
-endif()
-
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_HEADERS_DIR})

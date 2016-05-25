@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3)
-project(udp-receiver)
+project(tcp-receiver)
 
 set(${PROJECT_NAME}_INCLUDES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 set(${PROJECT_NAME}_HEADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)

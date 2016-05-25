@@ -6,7 +6,6 @@
 #define UDPRECEIVER_H
 
 #include "MessageContainer.h"
-
 #include "UDPSocket.h"
 
 class UDPReceiver
