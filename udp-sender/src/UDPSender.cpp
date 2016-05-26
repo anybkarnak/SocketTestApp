@@ -5,6 +5,7 @@
 #include "UDPSender.h"
 #include <random>
 #include <limits.h>
+#include <cmath>
 
 static const int BUFFLEN = 20; //19 digits and '0'
 
@@ -79,8 +80,13 @@ void UDPSender::StartSendData()
         uint16_t MessageSize = mt_rand() % USHRT_MAX;
         uint8_t MessageType = mt_rand() % UCHAR_MAX;
         uint64_t MessageId = mt_rand() % LLONG_MAX;
-        uint64_t MessageData = mt_rand() % LLONG_MAX;
+        uint64_t MessageData = mt_rand() % 100; //LLONG_MAX; //for check tcp socket connections
 
+
+        for(volatile int i = 0; i<1000;i++)
+        {
+            pow(i,i);
+        }
 
         uint8_t* buffer = ComposeMessage(MessageSize, MessageType, MessageId, MessageData);
 

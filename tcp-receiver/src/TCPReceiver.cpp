@@ -33,8 +33,7 @@ TCPReceiver::StartReceiveData()
 }
 
 
-void
-TCPReceiver::StopReceiveData()
+void TCPReceiver::StopReceiveData()
 {
     m_running = false;
     PrintContainer();

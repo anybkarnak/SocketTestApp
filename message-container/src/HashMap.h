@@ -1,0 +1,8 @@
+//
+// Created by karnak on 26.05.16.
+//
+
+#ifndef SOCKETTESTAPP_HASHMAP_H
+#define SOCKETTESTAPP_HASHMAP_H
+
+#endif //SOCKETTESTAPP_HASHMAP_H

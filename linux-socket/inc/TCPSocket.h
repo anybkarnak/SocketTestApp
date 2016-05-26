@@ -5,6 +5,7 @@
 #ifndef TCPLINUXSOCKET_H
 #define TCPLINUXSOCKET_H
 
+#include <mutex>
 #include "SocketCommon.h"
 class TCPSocket
 {
@@ -34,9 +35,14 @@ private:
     int m_socket;
 
     /*
-     * friend socket descriptor
+     * server socket descriptor
      */
-    int m_friend;
+    int m_server;
+
+    /*
+     *  remote client socket descriptor
+     */
+    int m_client;
 
     /*
      * my address information
@@ -46,9 +52,20 @@ private:
     /*
      *  connector's address information
      */
-    struct 	sockaddr_in 	their_addr;
+    struct 	sockaddr_in 	server_addr;
 
+    /*
+     *  remote client address information
+     */
+    struct sockaddr_in client_addr;
+
+    bool is_connected;
+    bool is_accepted;
+    std::string m_localadress;
+    int m_localPort;
     int sin_size;
+
+    std::mutex m_mutex;
 
 };
 typedef std::shared_ptr<TCPSocket> TCPSocketPtr;

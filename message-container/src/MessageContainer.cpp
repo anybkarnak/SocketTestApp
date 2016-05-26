@@ -46,10 +46,10 @@ bool MessageContainer::Compare(const MessageContainerPtr& container)
 
         if(j==container->GetMap().end())
         {
-            return false;
             matches++;
         }
     }
-    std::cout<<std::endl<<matches<<" matches, percentage = "<<matches/this->m_container.size()<<std::endl;
-    return true;
+    std::cout<<std::endl<<matches<<" matches, percentage = "<<(double)((double)matches/(double)GetMap().size())<<std::endl;
+
+    return matches == GetMap().size();
 }

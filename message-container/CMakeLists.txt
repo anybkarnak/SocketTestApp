@@ -20,6 +20,6 @@ list(APPEND ${PROJECT_NAME}_FILES ${${PROJECT_NAME}_INCLUDES}
         ${${PROJECT_NAME}_HEADERS}
         ${${PROJECT_NAME}_SOURCES})
 
-add_library(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_FILES})
+add_library(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_FILES} src/HashMap.cpp src/HashMap.h)
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_HEADERS_DIR})
