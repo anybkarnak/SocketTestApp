@@ -5,7 +5,7 @@
 #ifndef SOCKETTESTAPP_TCPRECEIVER_H
 #define SOCKETTESTAPP_TCPRECEIVER_H
 
-#include <MessageContainer.h>
+#include "MessageContainer.h"
 #include "TCPSocket.h"
 
 class TCPReceiver
@@ -34,5 +34,5 @@ private:
     MessageContainerPtr m_container;
 };
 
-
+typedef std::shared_ptr<TCPReceiver> TCPReceiverPtr;
 #endif //SOCKETTESTAPP_TCPRECEIVER_H

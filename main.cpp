@@ -1,17 +1,17 @@
 /*
-    Simple udp server
-    Silver Moon (m00n.silv3r@gmail.com)
+
 */
-#include <stdio.h> //printf
 #include "MessageContainer.h"
 #include "UDPReceiver.h"
+#include "UDPSender.h"
+#include <cmath>
+#include "TCPReceiver.h"
+
+
 #include <iostream>
 #include <atomic>
 #include <thread>
-#include <UDPSender.h>
-#include <UDPSocket.h>
-#include <cmath>
-
+#include <stdio.h> //printf
 using namespace std;
 
 static const int PORT = 8888;   //The port on which to listen for incoming data
@@ -26,13 +26,17 @@ int main(void)
     MessageContainerPtr receiveContainer = std::make_shared<MessageContainer>();
     UDPSocketPtr socket1 = std::make_shared<UDPSocket>("127.0.0.1", PORT);
     UDPSocketPtr socket2 = std::make_shared<UDPSocket>("127.0.0.1", PORT+1);
+    TCPSocketPtr tcpSockRes = std::make_shared<TCPSocket>("127.0.0.1", PORT+2);
+
 
     UDPReceiverPtr receiver1 = std::make_shared<UDPReceiver>(socket1, receiveContainer);
     UDPReceiverPtr receiver2 = std::make_shared<UDPReceiver>(socket2, receiveContainer);
+    TCPReceiverPtr receiver3 = std::make_shared<TCPReceiver>(tcpSockRes);
+
 
     MessageContainerPtr sendContainer = std::make_shared<MessageContainer>();
-    UDPSenderPtr sender1 = std::make_shared<UDPSender>(socket1, sendContainer);
-    UDPSenderPtr sender2 = std::make_shared<UDPSender>(socket2, sendContainer);
+    UDPSenderPtr sender1 = std::make_shared<UDPSender>(socket1,tcpSockRes, sendContainer);
+    UDPSenderPtr sender2 = std::make_shared<UDPSender>(socket2,tcpSockRes, sendContainer);
     bool run = true;
 
 
@@ -74,6 +78,10 @@ int main(void)
                 std::thread t2(&UDPReceiver::StartReceiveData, receiver2);
                 t2.detach();
 
+                std::thread t21(&TCPReceiver::StartReceiveData, receiver3);
+                t21.detach();
+
+
                 std::thread t3(&UDPSender::StartSendData, sender1);
                 t3.detach();
 
@@ -98,6 +106,7 @@ int main(void)
                 }
                 receiver1->StopReceiveData();
                 receiver2->StopReceiveData();
+                receiver3->StopReceiveData();
                 bool equal = receiveContainer->Compare(sendContainer);
                 if(equal)
                 {

@@ -34,9 +34,9 @@ private:
     int m_socket;
 
     /*
-     * client socket descriptor
+     * friend socket descriptor
      */
-    int m_client;
+    int m_friend;
 
     /*
      * my address information

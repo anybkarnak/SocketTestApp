@@ -23,6 +23,7 @@ struct Message
 //        {
 //            std::cout<<(int)buf[i]<<std::endl;
 //        }
+        //use bigEndian shiftness
             MessageSize =((buf[0]<<8)|buf[1]);
             MessageType = buf[2];
             MessageId = ((buf[3] << 56)|(buf[4] << 48) | (buf[5] << 40) | (buf[6] << 32) | (buf[7] << 24) | (buf[8] << 16) | (buf[9] << 8) | (buf[10]));

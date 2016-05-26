@@ -23,12 +23,12 @@ TCPSocket::TCPSocket(const std::string& localAddress, int localPort)
 
     bzero(&(m_addr.sin_zero), 8);        /* zero the rest of the struct */
 
-    if (bind(m_socket, (struct sockaddr*) &m_addr, sizeof(struct sockaddr)) \
- == -1)
+    if (bind(m_socket, (struct sockaddr*) &m_addr, sizeof(struct sockaddr))  == -1)
     {
         perror("bind");
         exit(1);
     }
+
 
     //listen one connection
     if (listen(m_socket, 1) == -1)
@@ -37,10 +37,13 @@ TCPSocket::TCPSocket(const std::string& localAddress, int localPort)
         exit(1);
     }
 
-    if ((m_client = accept(m_socket, (struct sockaddr*) &their_addr, (socklen_t*)&sin_size)) == -1)
-    {
-        perror("accept");
-    }
+//    if ((m_friend = accept(m_socket, (struct sockaddr*) &their_addr, (socklen_t*)&sin_size)) == -1)
+//    {
+//        perror("accept");
+//    }
+
+    /* Change the socket into non-blocking state	*/
+    fcntl(m_socket, F_SETFL, O_NONBLOCK);
 }
 
 
@@ -54,16 +57,18 @@ TCPSocket::TCPSocket(const std::string& localAddress, int localPort)
 int TCPSocket::Recv(char* buffer, int bufferLen)
 {
     sin_size = sizeof(struct sockaddr_in);
-    if ((m_client = accept(m_socket, (struct sockaddr*) &their_addr, (socklen_t*) &sin_size)) == -1)
+    if ((m_friend = accept(m_socket, (struct sockaddr*) &their_addr, (socklen_t*)&sin_size)) == -1)
     {
         perror("accept");
     }
+
     printf("server: got connection from %s\n",
            inet_ntoa(their_addr.sin_addr));
+
     //set client to nonblock
-    fcntl(m_client, F_SETFL, O_NONBLOCK);
+    fcntl(m_friend, F_SETFL, O_NONBLOCK);
     int len = 0;
-    len = recv(m_client, buffer, sizeof(buffer), 0);
+    len = recv(m_friend, buffer, sizeof(buffer), 0);
     if (len < 1)
     {
         perror("recv - non blocking \n");
@@ -81,5 +86,19 @@ int TCPSocket::Recv(char* buffer, int bufferLen)
  */
     void TCPSocket::Send(const uint8_t* buffer, int bufferLen)
     {
+        if (connect(m_friend , (struct sockaddr *)&their_addr , sizeof(their_addr)) < 0)
+        {
+            perror("connect error");
+            return;
+        }
 
+        puts("Connected\n");
+
+        //Send some data
+
+        if( send(m_friend , buffer , bufferLen , 0) < 0)
+        {
+            perror("Send failed");
+            return;
+        }
     }

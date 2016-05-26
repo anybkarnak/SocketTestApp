@@ -37,10 +37,10 @@ void
 TCPReceiver::StopReceiveData()
 {
     m_running = false;
+    PrintContainer();
 }
 
 void TCPReceiver::PrintContainer()
 {
     m_container->Print();
-
 }
