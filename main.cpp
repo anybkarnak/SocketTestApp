@@ -12,17 +12,16 @@
 #include <atomic>
 #include <thread>
 #include <stdio.h> //printf
+
+
+#include "message-container/src/HashMap.h"
+
 using namespace std;
 
 static const int PORT = 8888;   //The port on which to listen for incoming data
 
 int main(void)
 {
-
-   // char arr[] = {45, 8, 66, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0};
-   // Message a(arr);
-  //  std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " << a.MessageData;
-
     MessageContainerPtr receiveContainer = std::make_shared<MessageContainer>();
     UDPSocketPtr socket1 = std::make_shared<UDPSocket>("127.0.0.1", PORT);
     UDPSocketPtr socket2 = std::make_shared<UDPSocket>("127.0.0.1", PORT+1);
@@ -39,25 +38,6 @@ int main(void)
     UDPSenderPtr sender2 = std::make_shared<UDPSender>(socket2,tcpSockRes, sendContainer);
     bool run = true;
 
-
-//    Message a(1028, 241, 30, 40);
-//    uint8_t* arr = (sender1->ComposeMessage(1028, 241, 30, 40));
-//    std::cout<<"main";
-//    for(int i = 0;i<20;i++)
-//    {
-//        std::cout<<(int)*(arr+i)<<std::endl;
-//    }
-//    Message b(arr);
-//    if(a==b)
-//    {
-//        std::cout<<"compare true";
-//    }
-//    else
-//    {
-//        //std::cout<<"long size"<<sizeof(uint64_t);
-//        std::cout << b.MessageSize << " " << (int) b.MessageType << " " << b.MessageId << " " <<b.MessageData<<std::endl;
-//        std::cout << a.MessageSize << " " << (int) a.MessageType << " " << a.MessageId << " " <<a.MessageData<<std::endl;
-//    }
 
     while (run)
     {

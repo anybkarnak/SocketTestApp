@@ -13,16 +13,12 @@
 #include <mutex>
 //delete
 #include <iostream>
+#include "HashMap.h"
 
 struct Message
 {
     Message(uint8_t* buf)
     {
-//        std::cout<<"arr"<<std::endl;
-//        for(int i = 0;i<20;i++)
-//        {
-//            std::cout<<(int)buf[i]<<std::endl;
-//        }
         //use bigEndian shiftness
             MessageSize =((buf[0]<<8)|buf[1]);
             MessageType = buf[2];
@@ -62,6 +58,13 @@ struct Message
 class MessageContainer;
 typedef std::shared_ptr<MessageContainer> MessageContainerPtr;
 
+struct MyKeyHash {
+    unsigned long operator()(const int& k) const
+    {
+        return k % 10;
+    }
+};
+
 class MessageContainer
 {
 public:
@@ -80,6 +83,8 @@ private:
     std::map<uint64_t, Message> m_container;
     std::mutex m_mutex;
     Message m_data;
+
+    HashMap<uint64_t, Message, MyKeyHash> m_map;
 };
 
 typedef std::shared_ptr<MessageContainer> MessageContainerPtr;

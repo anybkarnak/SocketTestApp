@@ -6,6 +6,8 @@
 #include "MessageContainer.h"
 #include <algorithm>
 
+
+
 void MessageContainer::Add(Message& msg)
 {
     std::lock_guard<std::mutex> lock(m_mutex); //lock the mutex
