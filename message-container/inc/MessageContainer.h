@@ -46,7 +46,7 @@ struct Message
     }
     bool operator==(const Message msg) const
     {
-        return (MessageSize==msg.MessageSize&&MessageType==msg.MessageType&&MessageId==msg.MessageId&&MessageData==msg.MessageData);
+        return (/*MessageSize==msg.MessageSize&&MessageType==msg.MessageType&&MessageId==msg.MessageId&&*/MessageData==msg.MessageData);
     }
 
     uint16_t MessageSize;
@@ -57,13 +57,6 @@ struct Message
 
 class MessageContainer;
 typedef std::shared_ptr<MessageContainer> MessageContainerPtr;
-
-struct MyKeyHash {
-    unsigned long operator()(const int& k) const
-    {
-        return k % 10;
-    }
-};
 
 class MessageContainer
 {
