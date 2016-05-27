@@ -13,7 +13,7 @@
 #include <mutex>
 //delete
 #include <iostream>
-#include "HashMap.h"
+#include "Vector.h"
 
 struct Message
 {
@@ -75,16 +75,16 @@ public:
 
     bool Compare(const MessageContainerPtr& container);
 
-    std::map<uint64_t, Message> GetMap(){return m_container;};
+    Vector<Message> GetVector(){return m_container;}
+
+    ~MessageContainer();
 
     void Print();
 private:
 
-    std::map<uint64_t, Message> m_container;
     std::mutex m_mutex;
-    Message m_data;
 
-    HashMap<uint64_t, Message, MyKeyHash> m_map;
+    Vector<Message> m_container;
 };
 
 typedef std::shared_ptr<MessageContainer> MessageContainerPtr;

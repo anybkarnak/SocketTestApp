@@ -12,9 +12,9 @@
 #include <atomic>
 #include <thread>
 #include <stdio.h> //printf
+#include <cassert>
 
-
-#include "message-container/src/HashMap.h"
+//#include "message-container/src/Vector.h"
 
 using namespace std;
 
@@ -22,6 +22,7 @@ static const int PORT = 8888;   //The port on which to listen for incoming data
 
 int main(void)
 {
+
     MessageContainerPtr receiveContainer = std::make_shared<MessageContainer>();
     UDPSocketPtr socket1 = std::make_shared<UDPSocket>("127.0.0.1", PORT);
     UDPSocketPtr socket2 = std::make_shared<UDPSocket>("127.0.0.1", PORT+1);

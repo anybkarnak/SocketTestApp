@@ -4,8 +4,6 @@
 
 #include "UDPSender.h"
 #include <random>
-#include <limits.h>
-#include <cmath>
 
 static const int BUFFLEN = 20; //19 digits and '0'
 
