@@ -50,28 +50,14 @@ TCPSocket::TCPSocket(const std::string &localAddress, int localPort) : m_localad
         perror("socket");
     }
 
-
     //set client to nonblock
     fcntl(m_server, F_SETFL, O_NONBLOCK);
 
     is_connected = false;
     is_accepted = false;
-//    if ((m_friend = accept(m_socket, (struct sockaddr*) &their_addr, (socklen_t*)&sin_size)) == -1)
-//    {
-//        perror("accept");
-//    }
-
 
 }
 
-
-/*
- *   Read into the given buffer up to bufferLen bytes data from this
- *   socket.  Call connect() before calling recv() if use TCP socket
- *   @param buffer buffer to receive the data
- *   @param bufferLen maximum number of bytes to read into buffer
- *   @return number of bytes read, 0 for EOF, and -1 for error
- */
 int TCPSocket::Recv(char *buffer, int bufferLen)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -82,27 +68,27 @@ int TCPSocket::Recv(char *buffer, int bufferLen)
     {
         if ((m_client = accept(m_socket, (struct sockaddr *) &client_addr, (socklen_t *) &sin_size)) == -1)
         {
-            perror("accept");
+            //perror("accept");
 
             return 0;
         }
         else
         {
-            printf("server: got connection from %s\n", inet_ntoa(client_addr.sin_addr));
+            //printf("server: got connection from %s\n", inet_ntoa(client_addr.sin_addr));
             is_accepted = true;
         }
     }
 
 
-//set client to nonblock
+    //set client to nonblock
     fcntl(m_client, F_SETFL, O_NONBLOCK);
     int len = 0;
     len = recv(m_client, buffer, bufferLen, 0);
 
     if (len < 1)
     {
-        perror("recv - non blocking \n");
-        printf("and the data read size is: l=%d \n", len);
+        //perror("recv - non blocking \n");
+        //printf("and the data read size is: l=%d \n", len);
     }
 
     return
@@ -125,7 +111,7 @@ void TCPSocket::Send(const uint8_t *buffer, int bufferLen)
     }
     else
     {
-        std::cout << "connected" << std::endl;
+        //std::cout << "connected" << std::endl;
         is_connected = true;
     }
 

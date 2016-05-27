@@ -35,7 +35,7 @@ void MessageContainer::Print()
 {
     for(auto &it:m_container)
     {
-        std::cout << it.MessageSize << " " << (int) it.MessageType << " " << it.MessageId << " " << it.MessageData;
+        std::cout << it.MessageSize << " " << (int) it.MessageType << " " << it.MessageId << " " << it.MessageData<<std::endl;
     }
 }
 
@@ -61,7 +61,7 @@ bool MessageContainer::Compare(const MessageContainerPtr& container)
 
     }
 
-    std::cout<<std::endl<<"size1="<<size1<<"size2="<<size2<<"   "<<matches<<" matches, percentage = "<<(double)((double)matches/(double)size1)<<std::endl;
+    std::cout<<std::endl<<"size1="<<size1<<", size2="<<size2<<"   "<<matches<<" matches, percentage = "<<(double)((double)matches/(double)size1)<<std::endl;
     return ((size1==size2)&&matches/size1)==1;
 
 }
