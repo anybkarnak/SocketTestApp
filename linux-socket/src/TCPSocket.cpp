@@ -104,23 +104,25 @@ void TCPSocket::Send(const uint8_t *buffer, int bufferLen)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    if (connect(m_server, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0 && !is_connected)
+    if (!is_connected )
     {
-        perror("connect error");
-        return;
+        if(connect(m_server, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0 )
+        {
+            perror("connect error");
+            return;
+        }
+        else
+        {
+            //std::cout << "connected" << std::endl;
+            is_connected = true;
+        }
     }
-    else
-    {
-        //std::cout << "connected" << std::endl;
-        is_connected = true;
-    }
-
-
 
     //Send some data
 
     if (send(m_server, buffer, bufferLen, 0) < 0)
     {
+        is_connected = false;
         perror("Send failed");
         return;
     }
